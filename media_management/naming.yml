@@ -3,15 +3,15 @@ radarr:
   movieFormat: '{Movie TitleThe} ({Release Year}) [tmdbid-{TmdbId}] - {[Edition Tags] }{[Quality Full] }{[MediaInfo AudioCodec}{ MediaInfo AudioChannels] }{[MediaInfo VideoCodec]}'
   movieFolderFormat: '{Movie Title} ({Release Year}) [tmdbid-{TmdbId}]'
   replaceIllegalCharacters: true
-  colonReplacementFormat: 4
+  colonReplacementFormat: smart
 sonarr:
   rename: true
   standardEpisodeFormat: '{Series TitleTheWithoutYear} ({Series Year}) - S{season:00}E{episode:00} - {Episode CleanTitle} [{Quality Full}][{MediaInfo AudioCodec} {MediaInfo AudioChannels}]{[MediaInfo VideoDynamicRangeType]}[{MediaInfo VideoCodec}]{-Release Group}'
-  dailyEpisodeFormat: '{Series TitleTheWithoutYear} ({Series Year}) - {Episode CleanTitle:90} {[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{[MediaInfo VideoDynamicRangeType]}{[Mediainfo VideoCodec]}{-Release Group}'
+  dailyEpisodeFormat: '{Series TitleTheWithoutYear} ({Series Year}) - {Air-Date} - {Episode CleanTitle:90} {[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{[MediaInfo VideoDynamicRangeType]}{[Mediainfo VideoCodec]}{-Release Group}'
   animeEpisodeFormat: '{Series TitleTheWithoutYear} ({Series Year}) - S{season:00}E{episode:00} - {absolute:000} - {Episode CleanTitle:90} {[Custom Formats]}{[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{MediaInfo AudioLanguages}{[MediaInfo VideoDynamicRangeType]}[{Mediainfo VideoCodec }{MediaInfo VideoBitDepth}bit]{-Release Group}'
   seriesFolderFormat: '{Series TitleThe} ({Series Year}) [tvdbid-{TvdbId}]'
   seasonFolderFormat: Season {season:00}
   replaceIllegalCharacters: true
-  colonReplacementFormat: smart
+  colonReplacementFormat: 4
   customColonReplacementFormat: ''
   multiEpisodeStyle: 5
