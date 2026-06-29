@@ -36,6 +36,28 @@ jobs:
         run: |
           uv run scripts/generate.py TRaSH-Guides/docs/json .
 
+      - name: Generate PCD (v2) from the v1 output
+        run: |
+          uv run scripts/generate_pcd.py . .
+
+      - name: Validate PCD against schema
+        run: |
+          git clone --depth 1 https://github.com/Dictionarry-Hub/schema.git schema-repo
+          db="$(mktemp)"
+          # Replay the schema's ops in order, then our generated base op.
+          for op in $(ls schema-repo/ops/*.sql | sort -V); do
+            sqlite3 "$db" ".read $op"
+          done
+          sqlite3 "$db" "PRAGMA foreign_keys = ON;" ".read ops/1.base.sql"
+          # Fail if any foreign-key violations slipped through.
+          violations="$(sqlite3 "$db" 'PRAGMA foreign_key_check;')"
+          if [ -n "$violations" ]; then
+            echo "❌ Foreign key violations in generated PCD:"
+            echo "$violations"
+            exit 1
+          fi
+          echo "✅ PCD replays cleanly against the schema"
+
       - name: Run tests
         run: |
           uv run pytest tests
@@ -43,11 +65,12 @@ jobs:
       - name: Check for uncommitted changes (PR)
         if: github.event_name == 'pull_request'
         run: |
-          git add regex_patterns/ custom_formats/ profiles/
+          git add regex_patterns/ custom_formats/ profiles/ pcd.json ops/
           if ! git diff --staged --quiet; then
             echo "❌ Error: Generated files have changes that are not committed."
-            echo "Please run the generation script locally and commit the changes:"
+            echo "Please run the generation scripts locally and commit the changes:"
             echo "  uv run scripts/generate.py TRaSH-Guides/docs/json ."
+            echo "  uv run scripts/generate_pcd.py . ."
             git diff --staged --stat
             exit 1
           fi
@@ -56,6 +79,6 @@ jobs:
       - name: Commit and push changes (Scheduled/Manual)
         if: github.event_name != 'pull_request'
         run: |
-          git add regex_patterns/ custom_formats/ profiles/
+          git add regex_patterns/ custom_formats/ profiles/ pcd.json ops/
           git commit -m "Automated update from GitHub Actions" || echo "No changes to commit"
           git push
