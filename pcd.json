@@ -7,7 +7,7 @@
         "sonarr"
     ],
     "dependencies": {
-        "schema": "^1.1.0"
+        "https://github.com/Dictionarry-Hub/schema": "1.1.0"
     },
     "license": "MIT",
     "repository": "https://github.com/Sc00tz/profilarr-trash-guides",

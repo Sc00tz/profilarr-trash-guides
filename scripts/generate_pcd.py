@@ -344,7 +344,7 @@ def main():
         "version": "2.0.0",
         "description": "Unofficial TRaSH-Guides database for Profilarr (v2 PCD format)",
         "arr_types": ["radarr", "sonarr"],
-        "dependencies": {"schema": "^1.1.0"},
+        "dependencies": {"https://github.com/Dictionarry-Hub/schema": "1.1.0"},
         "license": "MIT",
         "repository": "https://github.com/Sc00tz/profilarr-trash-guides",
         "tags": ["trash-guides", "radarr", "sonarr", "quality", "remux"],
