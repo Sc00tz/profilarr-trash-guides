@@ -233,6 +233,16 @@ def build(root):
     # --- media management ---------------------------------------------------
     build_media_management(root, b)
 
+    # --- delay profile ------------------------------------------------------
+    # The v1 database carries no delay profile, but Profilarr v2 expects one.
+    # Default: prefer usenet, no delays, no score bypass. Only the default
+    # profile (id 1) is synced and it must have empty tags.
+    b.add("delay_profiles",
+          ("name", "preferred_protocol", "usenet_delay", "torrent_delay",
+           "bypass_if_highest_quality", "bypass_if_above_custom_format_score",
+           "minimum_custom_format_score"),
+          "Default", "prefer_usenet", 0, 0, 0, 0, None)
+
     # --- tags (must be inserted first; rendered first below) ----------------
     for tag in sorted(b.tags):
         b.add("tags", ("name",), tag)
@@ -310,6 +320,7 @@ RENDER_ORDER = [
     "radarr_naming", "sonarr_naming",
     "radarr_media_settings", "sonarr_media_settings",
     "radarr_quality_definitions", "sonarr_quality_definitions",
+    "delay_profiles",
 ]
 
 
